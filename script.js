@@ -12,6 +12,11 @@ const langInfo = {
         "file" : "english.hfstol",
         "placeholder" : "Enter a word to analyze",
         "empty-input" : "Please enter a word to analyze"
+    },
+    "italian": {
+        "file" : "italian.hfst.ol",
+        "placeholder" : "Inserisci una parola da analizzare",
+        "empty-input" : "Inserisci una parola da analizzare " 
     }
 };
 
@@ -105,7 +110,7 @@ langSelect.addEventListener('change', () => {
     textInput.placeholder = langInfo[lang]['placeholder'];
     resultsDiv.textContent = '';
     console.log('Language selected:', lang);
-})
+});
 
 // Not being used for now
 // textInput.addEventListener('input', function() {
