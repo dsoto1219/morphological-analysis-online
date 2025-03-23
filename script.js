@@ -104,8 +104,6 @@ langSelect.addEventListener('change', () => {
     lang = langSelect.value;
     textInput.placeholder = langInfo[lang]['placeholder'];
     resultsDiv.textContent = '';
-    title.textContent = capitalizeFirstChar(lang) + 
-                        ' Morphological Analysis'
     console.log('Language selected:', lang);
 })
 
