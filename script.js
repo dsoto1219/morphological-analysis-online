@@ -1,6 +1,7 @@
 /* Code from https://reynoldsnlp.com/hfst-wasm/ */
 let hfst;
 let french_transducer;
+const analyzeBtn = document.querySelector('.analyzeButton')
 prepareResources();
 
 async function prepareResources() {
@@ -18,7 +19,7 @@ async function prepareResources() {
     console.log('    ...french.hfst.ol file loaded in Emscripten filesystem...');
     french_transducer = loadTransducer("/french.hfst.ol");
     console.log('    ...French analyzer loaded as `french_transducer`', french_transducer);
-    document.getElementById('analyzeButton').disabled = false;
+    analyzeBtn.disabled = false;
 }
 
 function loadTransducer(path) {
@@ -32,11 +33,12 @@ function loadTransducer(path) {
     return transducer;
 }
 
-document.getElementById('analyzeButton').addEventListener('click', analyzeWord);
+analyzeBtn.addEventListener('click', analyzeWord);
+const textInput = document.querySelector('.textInput')
+const resultsDiv = document.querySelector('.results');
 
 function analyzeWord() {
-    const word = document.getElementById('wordInput').value.trim();
-    const resultsDiv = document.getElementById('results');
+    const word = textInput.value.trim();
 
     if (!word) {
         resultsDiv.textContent = 'Please enter a word to analyze';
@@ -70,12 +72,12 @@ function tokenized(str) {
     return str.split(' ');
 }
 
-const input = document.querySelector('.text-input');
-const analysis = document.querySelector('.analysis');
-input.addEventListener('input', function() {
-    tokens = tokenized(input.value);
-    // Get array of analyzed tokens (this currently
-    // does nothing)
-    analyzed = tokens
-    analysis.textContent = analyzed.join(' ')
-})
+// Not being used for now
+// const analysis = document.querySelector('.results');
+// textInput.addEventListener('input', function() {
+//     tokens = tokenized(textInput.value);
+//     // Get array of analyzed tokens (this currently
+//     // does nothing)
+//     analyzed = tokens
+//     analysis.textContent = analyzed.join(' ')
+// })
