@@ -1,5 +1,6 @@
 /* Code from https://reynoldsnlp.com/hfst-wasm/ */
 let hfst;
+let lang;
 let transducer;
 
 const langInfo = {
@@ -21,12 +22,18 @@ const langInfo = {
 };
 
 const langSelect = document.querySelector('.langSelect');
-let lang = langSelect.value;
-const textInput = document.querySelector('.textInput')
-textInput.placeholder = langInfo[lang]['placeholder'];
-
 const analyzeBtn = document.querySelector('.analyzeButton')
-prepareResources();
+const textInput = document.querySelector('.textInput')
+const resultsDiv = document.querySelector('.resultsDiv');
+update();
+
+function update() {
+    lang = langSelect.value;
+    textInput.value = ''
+    textInput.placeholder = langInfo[lang]['placeholder'];
+    resultsDiv.textContent = '';
+    prepareResources();
+}
 
 async function prepareResources() {
     console.log('Loading HFST module...');
@@ -34,7 +41,7 @@ async function prepareResources() {
         hfst = hfstModule;
         console.log('    ...HFST module loaded as `hfst`');
     });
-    console.log('Loading French analyzer...');
+    console.log(`Loading ${capitalizeFirstChar(lang)} analyzer...`);
     let lf = langInfo[lang]["file"];
     await hfst.FS.createPreloadedFile('/', lf, './' + lf, true, false);
     // Wait until the file is loaded
@@ -59,7 +66,6 @@ function loadTransducer(path) {
 }
 
 analyzeBtn.addEventListener('click', analyzeWord);
-const resultsDiv = document.querySelector('.resultsDiv');
 
 function analyzeWord() {
     resultsDiv.textContent = '';
@@ -104,13 +110,7 @@ function capitalizeFirstChar(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const title = document.querySelector('.title')
-langSelect.addEventListener('change', () => {
-    lang = langSelect.value;
-    textInput.placeholder = langInfo[lang]['placeholder'];
-    resultsDiv.textContent = '';
-    console.log('Language selected:', lang);
-});
+langSelect.addEventListener('change', update);
 
 // Not being used for now
 // textInput.addEventListener('input', function() {
