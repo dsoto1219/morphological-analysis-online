@@ -59,8 +59,9 @@ function loadTransducer(path) {
     let instream = new hfst.HfstInputStream(path);
     transducer = instream.read();
     if (!instream.is_eof()) {  // If stream has not reached end-of-file
-    console.warn(`The given transducer file (${path}) contains
-        more than one transducer. Only the first one is loaded.`);
+        console.warn(`The given transducer file (${path}) contains
+                      more than one transducer. Only the first one 
+                      is loaded.`);
     }
     instream.close();
     return transducer;
