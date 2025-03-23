@@ -67,6 +67,17 @@ function loadTransducer(path) {
 }
 
 analyzeBtn.addEventListener('click', analyzeWord);
+// Pressing enter triggers button click
+textInput.addEventListener('keypress', (event) => {
+    if (event.key == "Enter") {
+        /*
+          We trigger a click instead of a function call
+          so that pressing enter doesn't trigger the action
+          while the button is disabled
+        */
+       analyzeBtn.click();
+    }
+});
 
 function analyzeWord() {
     resultsDiv.textContent = '';
