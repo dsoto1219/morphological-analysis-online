@@ -12,14 +12,16 @@
 <body>
     <h1 class="p-2 title">Morphological Analysis</h1>
     <main>
-        <div class="container">
+        <div class="container-sm">
             <select class="form-select mb-3 langSelect" aria-label="Default select example">
                 <option value="french">French</option>
                 <option value="english">English</option>
                 <option value="italian">Italian</option>
             </select>
-            <input class="form-control textInput" autofocus type="text"> 
-            <button class="btn btn-primary align-self-end analyzeButton">Analyze</button>
+            <div class="d-flex gap-2 wrap">
+                <input class="form-control textInput" autofocus type="text"> 
+                <button class="btn btn-primary align-self-end analyzeButton">Analyze</button>
+            </div>
             <div class="resultsDiv"></div>
             <!-- 
             <div class="segmentation">I help-ed him</div>
