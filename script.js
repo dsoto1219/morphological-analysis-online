@@ -5,11 +5,13 @@ let transducer;
 const langInfo = {
     "french": {
         "file" : "french.hfst.ol",
-        "placeholder" : "Entrez un mot à analyser"
+        "placeholder" : "Entrez un mot à analyser",
+        "empty-input" : "Veuillez saisir un mot à analyser"
     },
     "english": {
         "file" : "english.hfstol",
-        "placeholder" : "Enter a word to analyze"
+        "placeholder" : "Enter a word to analyze",
+        "empty-input" : "Please enter a word to analyze"
     }
 };
 
@@ -55,6 +57,7 @@ analyzeBtn.addEventListener('click', analyzeWord);
 const resultsDiv = document.querySelector('.resultsDiv');
 
 function analyzeWord() {
+    resultsDiv.textContent = '';
     const word = textInput.value.trim();
 
     if (!word) {
@@ -69,14 +72,17 @@ function analyzeWord() {
         if (results.length === 0) {
             resultsDiv.textContent = 'No analysis found for: ' + word;
         } else {
-            let resultHtml = '<p>Analysis results:</p><ul>';
+            let resultsTitle = document.createElement('p');
+            resultsTitle.textContent = 'Analysis results:';
+            resultsDiv.appendChild(resultsTitle);
 
+            let resultsList = document.createElement('ul')
             for (let result of results) {
-            resultHtml += '<li>' + result[0].join('') + ' (weight: ' + result[1] + ')</li>';
+                let resultElem = document.createElement('li');
+                resultElem.textContent = `${result[0].join('')} (weight: ${result[1]})`;
+                resultsList.appendChild(resultElem);
             }
-
-            resultHtml += '</ul>';
-            resultsDiv.innerHTML = resultHtml;
+            resultsDiv.appendChild(resultsList);
         }
     } catch (error) {
         console.error('Error in lookup:', error);
