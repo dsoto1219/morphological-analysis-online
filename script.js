@@ -1,6 +1,23 @@
 /* Code from https://reynoldsnlp.com/hfst-wasm/ */
 let hfst;
-let french_transducer;
+let transducer;
+
+const langInfo = {
+    "french": {
+        "file" : "french.hfst.ol",
+        "placeholder" : "Entrez un mot à analyser"
+    },
+    "english": {
+        "file" : "english.hfstol",
+        "placeholder" : "Enter a word to analyze"
+    }
+};
+
+const langSelect = document.querySelector('.langSelect');
+let lang = langSelect.value;
+const textInput = document.querySelector('.textInput')
+textInput.placeholder = langInfo[lang]['placeholder'];
+
 const analyzeBtn = document.querySelector('.analyzeButton')
 prepareResources();
 
@@ -11,14 +28,15 @@ async function prepareResources() {
         console.log('    ...HFST module loaded as `hfst`');
     });
     console.log('Loading French analyzer...');
-    await hfst.FS.createPreloadedFile('/', 'french.hfst.ol', './french.hfst.ol', true, false);
+    let lf = langInfo[lang]["file"];
+    await hfst.FS.createPreloadedFile('/', lf, './' + lf, true, false);
     // Wait until the file is loaded
-    while (!hfst.FS.analyzePath('/french.hfst.ol').exists) {
+    while (!hfst.FS.analyzePath('/' + lf).exists) {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
-    console.log('    ...french.hfst.ol file loaded in Emscripten filesystem...');
-    french_transducer = loadTransducer("/french.hfst.ol");
-    console.log('    ...French analyzer loaded as `french_transducer`', french_transducer);
+    console.log(`    ...${lf} file loaded in Emscripten filesystem...`);
+    transducer = loadTransducer('/' + lf);
+    console.log(`    ...${lang} analyzer loaded as \`transducer\``, transducer);
     analyzeBtn.disabled = false;
 }
 
@@ -34,8 +52,7 @@ function loadTransducer(path) {
 }
 
 analyzeBtn.addEventListener('click', analyzeWord);
-const textInput = document.querySelector('.textInput')
-const resultsDiv = document.querySelector('.results');
+const resultsDiv = document.querySelector('.resultsDiv');
 
 function analyzeWord() {
     const word = textInput.value.trim();
@@ -46,7 +63,7 @@ function analyzeWord() {
     }
 
     try {
-        const results = french_transducer.lookup(word);
+        const results = transducer.lookup(word);
         console.log(`Results (${word}):`, results);
 
         if (results.length === 0) {
@@ -72,8 +89,21 @@ function tokenized(str) {
     return str.split(' ');
 }
 
+function capitalizeFirstChar(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+const title = document.querySelector('.title')
+langSelect.addEventListener('change', () => {
+    lang = langSelect.value;
+    textInput.placeholder = langInfo[lang]['placeholder'];
+    resultsDiv.textContent = '';
+    title.textContent = capitalizeFirstChar(lang) + 
+                        ' Morphological Analysis'
+    console.log('Language selected:', lang);
+})
+
 // Not being used for now
-// const analysis = document.querySelector('.results');
 // textInput.addEventListener('input', function() {
 //     tokens = tokenized(textInput.value);
 //     // Get array of analyzed tokens (this currently
