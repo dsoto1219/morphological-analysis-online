@@ -28,6 +28,7 @@ const resultsDiv = document.querySelector('.resultsDiv');
 update();
 
 function update() {
+    analyzeBtn.disabled = true;
     lang = langSelect.value;
     textInput.value = ''
     textInput.placeholder = langInfo[lang]['placeholder'];
