@@ -67,7 +67,18 @@ function loadTransducer(path) {
     return transducer;
 }
 
-analyzeBtn.addEventListener('click', analyzeWord);
+analyzeBtn.addEventListener('click', () => {
+    resultsDiv.textContent = '';
+
+    let resultsTitle = document.createElement('p');
+    resultsTitle.textContent = 'Analysis results:';
+    resultsDiv.appendChild(resultsTitle);
+
+    tokens = tokenized(textInput.value.trim());
+    for (let token of tokens) {
+        resultsDiv.appendChild(analyzeWord(token));
+    }
+});
 // Pressing enter triggers button click
 textInput.addEventListener('keypress', (event) => {
     if (event.key == "Enter") {
@@ -80,10 +91,7 @@ textInput.addEventListener('keypress', (event) => {
     }
 });
 
-function analyzeWord() {
-    resultsDiv.textContent = '';
-    const word = textInput.value.trim();
-
+function analyzeWord(word) {
     if (!word) {
         resultsDiv.textContent = 'Please enter a word to analyze';
         return;
@@ -93,21 +101,28 @@ function analyzeWord() {
         const results = transducer.lookup(word);
         console.log(`Results (${word}):`, results);
 
+        let resultsList = document.createElement('ul');
+        resultsList.classList.add('list-group');
+        let resultElem = document.createElement('li');
+        resultElem.classList.add('list-group-item');
+        resultsList.appendChild(resultElem);
         if (results.length === 0) {
-            resultsDiv.textContent = 'No analysis found for: ' + word;
+            resultElem.textContent = 'No analysis found for: ' + word;
+            resultElem.classList.add('bg-warning', 'bg-opacity-50');
         } else {
-            let resultsTitle = document.createElement('p');
-            resultsTitle.textContent = 'Analysis results:';
-            resultsDiv.appendChild(resultsTitle);
+            let result = results[0];
+            resultElem.textContent = `${result[0].join('')} (weight: ${result[1]})`;
 
-            let resultsList = document.createElement('ul')
-            for (let result of results) {
-                let resultElem = document.createElement('li');
-                resultElem.textContent = `${result[0].join('')} (weight: ${result[1]})`;
-                resultsList.appendChild(resultElem);
-            }
-            resultsDiv.appendChild(resultsList);
+            let resultElemClone;
+            results.slice(1).forEach(result => {
+                resultElemClone = resultElem.cloneNode(true);
+                resultElemClone.classList.add('text-muted');
+                resultElemClone.textContent = `${result[0].join('')} (weight: ${result[1]})`;
+                resultsList.appendChild(resultElemClone);
+            });
+            resultElem.classList.add('bg-dark', 'bg-opacity-25');
         }
+        return resultsList;
     } catch (error) {
         console.error('Error in lookup:', error);
         resultsDiv.textContent = 'Error analyzing word: ' + error.message;
