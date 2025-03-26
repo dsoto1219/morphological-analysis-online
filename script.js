@@ -6,18 +6,18 @@ let transducer;
 const langInfo = {
     "french": {
         "file" : "french.hfst.ol",
-        "placeholder" : "Entrez un mot à analyser",
-        "empty-input" : "Veuillez saisir un mot à analyser"
+        "placeholder" : "Entrez un mot ou une phrase à analyser",
+        "empty-input" : "Veuillez saisir un mot ou une phrase à analyser"
     },
     "english": {
         "file" : "english.hfstol",
-        "placeholder" : "Enter a word to analyze",
-        "empty-input" : "Please enter a word to analyze"
+        "placeholder" : "Enter a word or sentence to analyze",
+        "empty-input" : "Please enter a word or sentence to analyze"
     },
     "italian": {
         "file" : "italian.hfst.ol",
-        "placeholder" : "Inserisci una parola da analizzare",
-        "empty-input" : "Inserisci una parola da analizzare " 
+        "placeholder" : "Inserisci una parola o una frase da analizzare",
+        "empty-input" : "Inserisci una parola o una frase da analizzare" 
     }
 };
 
