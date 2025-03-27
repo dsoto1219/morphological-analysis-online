@@ -154,12 +154,3 @@ function capitalizeFirstChar(str) {
 }
 
 langSelect.addEventListener('change', update);
-
-// Not being used for now
-// textInput.addEventListener('input', function() {
-//     tokens = tokenized(textInput.value);
-//     // Get array of analyzed tokens (this currently
-//     // does nothing)
-//     analyzed = tokens
-//     analysis.textContent = analyzed.join(' ')
-// })
