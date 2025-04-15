@@ -52,10 +52,6 @@ function loadTransducer(path) {
 analyzeBtn.addEventListener('click', () => {
     resultsDiv.textContent = '';
 
-    let resultsTitle = document.createElement('p');
-    resultsTitle.textContent = 'Analysis results:';
-    resultsDiv.appendChild(resultsTitle);
-
     tokens = tokenized(textInput.value.trim());
     for (let token of tokens) {
         resultsDiv.appendChild(analyzeWord(token));
