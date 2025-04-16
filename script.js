@@ -7,6 +7,10 @@ const langSelect = document.querySelector('.langSelect');
 const analyzeBtn = document.querySelector('.analyzeButton')
 const textInput = document.querySelector('.textInput')
 const resultsDiv = document.querySelector('.resultsDiv');
+
+const credits = document.querySelector('.credits');
+const [analyzerName, author] = credits.children
+const citation = document.querySelector('.citation');
 update();
 
 function update() {
@@ -16,6 +20,24 @@ function update() {
     textInput.placeholder = langInfo[lang]['placeholder'];
     resultsDiv.textContent = '';
     prepareResources();
+
+    // Update Credits
+    analyzerName.textContent = '';
+    analyzerName.replaceChildren();
+    if (analyzerNameStr = langInfo[lang]['analyzer-name']) {
+        analyzerName.textContent = 'Analyzer Name: ';
+        let a = document.createElement('a');
+        a.textContent = analyzerNameStr;
+        if (link = langInfo[lang]['link']) {
+            a.href = link;
+        } else if (analyzerName.href) {
+            a.removeAttribute('href');
+        }
+        analyzerName.appendChild(a);
+    }
+    author.textContent = `By ${langInfo[lang]['authors'] || 'Unknown'}\
+                          ${langInfo[lang]['year'] ? ` (${langInfo[lang]['year']})` : ''}`;
+    citation.textContent = langInfo[lang]['citation'] ? `Citation: ${langInfo[lang]['citation']}` : '';
 }
 
 async function prepareResources() {
