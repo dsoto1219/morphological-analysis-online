@@ -120,7 +120,7 @@ function analyzeWord(word) {
 
             let analysis = document.createElement('span');
             let weight = document.createElement('span');
-            analysis.textContent = `${result[0].join('')}`;
+            analysis.textContent = result[0].join('');
             weight.textContent = `(weight: ${result[1]})`;
             resultElem.append(analysis, weight);
 
