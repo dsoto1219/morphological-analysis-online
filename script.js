@@ -91,6 +91,7 @@ textInput.addEventListener('keypress', (event) => {
     }
 });
 
+// Returns card with analyses
 function analyzeWord(word) {
     if (!word) {
         resultsDiv.textContent = 'Please enter a word to analyze';
@@ -104,20 +105,32 @@ function analyzeWord(word) {
         let resultsList = document.createElement('ul');
         resultsList.classList.add('list-group');
         let resultElem = document.createElement('li');
-        resultElem.classList.add('list-group-item');
+        resultElem.classList.add(
+            'list-group-item', 
+            'd-flex', 
+            'gap-1', 
+            'justify-content-between'
+        );
         resultsList.appendChild(resultElem);
         if (results.length === 0) {
             resultElem.textContent = 'No analysis found for: ' + word;
             resultElem.classList.add('bg-warning', 'bg-opacity-50');
         } else {
             let result = results[0];
-            resultElem.textContent = `${result[0].join('')} (weight: ${result[1]})`;
+
+            let analysis = document.createElement('span');
+            let weight = document.createElement('span');
+            analysis.textContent = `${result[0].join('')}`;
+            weight.textContent = `(weight: ${result[1]})`;
+            resultElem.append(analysis, weight);
 
             let resultElemClone;
             results.slice(1).forEach(result => {
                 resultElemClone = resultElem.cloneNode(true);
+                [analysis, weight] = resultElemClone.children;
+                analysis.textContent = result[0].join('');
+                weight.textContent = `(weight: ${result[1]})`;
                 resultElemClone.classList.add('text-muted');
-                resultElemClone.textContent = `${result[0].join('')} (weight: ${result[1]})`;
                 resultsList.appendChild(resultElemClone);
             });
             resultElem.classList.add('bg-dark', 'bg-opacity-25');
