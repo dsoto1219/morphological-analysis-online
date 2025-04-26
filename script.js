@@ -119,17 +119,24 @@ function analyzeWord(word) {
             let result = results[0];
 
             let analysis = document.createElement('span');
-            let weight = document.createElement('span');
             analysis.textContent = result[0].join('');
-            weight.textContent = `(weight: ${result[1]})`;
-            resultElem.append(analysis, weight);
+            resultElem.appendChild(analysis);
+            let weight;
+            if (result[1] !== 0) {
+                weight = document.createElement('span');
+                weight.textContent = `(weight: ${result[1]})`;
+                resultElem.appendChild(weight);
+            }
 
             let resultElemClone;
             results.slice(1).forEach(result => {
                 resultElemClone = resultElem.cloneNode(true);
-                [analysis, weight] = resultElemClone.children;
+                analysis = resultElemClone.children[0];
                 analysis.textContent = result[0].join('');
-                weight.textContent = `(weight: ${result[1]})`;
+                if (result[1] !== 0) {
+                    weight = resultElemClone.children[1];
+                    weight.textContent = `(weight: ${result[1]})`;
+                }
                 resultElemClone.classList.add('text-muted');
                 resultsList.appendChild(resultElemClone);
             });
