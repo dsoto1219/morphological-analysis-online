@@ -108,6 +108,7 @@ function analyzeWord(word) {
         resultElem.classList.add(
             'list-group-item', 
             'd-flex', 
+            'flex-wrap', 
             'gap-1', 
             'justify-content-between'
         );
