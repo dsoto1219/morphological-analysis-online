@@ -91,6 +91,9 @@ textInput.addEventListener('keypress', (event) => {
     }
 });
 
+const selectedClass = ['bg-dark', 'bg-opacity-25'];
+const unselectedClass = ['bg-light', 'text-muted'];
+
 // Returns card with analyses
 function analyzeWord(word) {
     if (!word) {
@@ -141,7 +144,7 @@ function analyzeWord(word) {
                 resultElemClone.classList.add('text-muted');
                 resultsList.appendChild(resultElemClone);
             });
-            resultElem.classList.add('bg-dark', 'bg-opacity-25');
+            resultElem.classList.add(...selectedClass);
         }
         return resultsList;
     } catch (error) {
@@ -150,6 +153,23 @@ function analyzeWord(word) {
     }
 }
 /* End of code from https://reynoldsnlp.com/hfst-wasm/ */
+
+resultsDiv.addEventListener('click', (event) => {
+    if (event.target.tagName === 'LI') {
+        let selected = event.target;
+        // Make clicked element appear selected
+        selected.classList.remove(...unselectedClass);
+        selected.classList.add(...selectedClass);
+        // Make all other elements unselected
+        let ul = selected.parentNode;
+        for (let li of ul.children) {
+            if (li !== selected) {
+                li.classList.remove(...selectedClass);
+                li.classList.add(...unselectedClass);
+            }
+        }
+    }
+})
 
 function tokenized(str) {
     return str.split(' ');
