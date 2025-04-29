@@ -141,7 +141,7 @@ function analyzeWord(word) {
                     weight = resultElemClone.children[1];
                     weight.textContent = `(weight: ${result[1]})`;
                 }
-                resultElemClone.classList.add('text-muted');
+                resultElemClone.classList.add(...unselectedClass);
                 resultsList.appendChild(resultElemClone);
             });
             resultElem.classList.add(...selectedClass);
